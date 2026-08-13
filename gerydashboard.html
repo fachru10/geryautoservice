@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"/>
+<title>Gery Dashboard</title>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Gery Dashboard"/>
+<meta name="theme-color" content="#0f141b"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="data:image/png;base64,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"/>
+<link rel="icon" type="image/png" href="data:image/png;base64,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"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;font-family:'Inter',sans-serif;background:#0f141b;color:#dee2ec;min-height:100vh;padding-bottom:env(safe-area-inset-bottom);overscroll-behavior-y:none}
+.ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+::-webkit-scrollbar{display:none}
+.glass{background:rgba(27,32,39,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px}
+.press:active{transform:scale(0.97)}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.b-ok{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)}
+.b-warn{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+.b-err{background:rgba(248,113,113,0.12);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
+.b-info{background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)}
+.pill{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#9aa0b4;cursor:pointer;white-space:nowrap}
+.pill.active{background:rgba(233,195,73,0.12);color:#e9c349;border-color:rgba(233,195,73,0.35)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.live-dot{animation:pulse 2s infinite}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.skel{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+#splash{position:fixed;inset:0;z-index:999;background:#090f15;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .5s ease,transform .5s ease}
+#splash.splash-out{opacity:0;transform:scale(1.05);pointer-events:none}
+.splash-ring{width:70px;height:70px;border:3px solid rgba(233,195,73,0.15);border-top-color:#e9c349;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH SCREEN ══ -->
+<div id="splash">
+  <div style="text-align:center">
+    <div style="font-size:40px;margin-bottom:8px">💰</div>
+    <h1 style="font-family:Montserrat;font-size:22px;font-weight:800;background:linear-gradient(135deg,#e9c349,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1.5px">GERY DASHBOARD</h1>
+    <p style="font-size:10px;color:#9aa0b4;letter-spacing:3px;text-transform:uppercase;margin-top:4px">Owner View · Realtime</p>
+  </div>
+  <div class="splash-ring"></div>
+  <p style="font-size:10px;color:rgba(154,160,180,0.5);letter-spacing:2px" id="splash-msg">CONNECTING...</p>
+</div>
+
+<!-- HEADER -->
+<div style="position:sticky;top:0;z-index:50;background:rgba(15,20,27,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);padding:calc(env(safe-area-inset-top) + 14px) 18px 14px">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-family:Montserrat;font-size:15px;font-weight:800;color:#e9c349;letter-spacing:.3px">GERY DASHBOARD</div>
+      <div style="font-size:10px;color:#9aa0b4;letter-spacing:.5px">SPAREPART HUB · OWNER VIEW</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="text-align:right;line-height:1.3">
+        <div id="dash-date" style="font-size:9px;color:#9aa0b4;letter-spacing:.3px"></div>
+        <div id="dash-clock" style="font-size:12px;font-weight:700;color:#e9c349;font-variant-numeric:tabular-nums"></div>
+      </div>
+      <div style="position:relative">
+        <button id="notif-bell-btn" onclick="toggleNotifPanel()" style="background:none;border:none;color:#9aa0b4;cursor:pointer;padding:6px;position:relative">
+          <span class="ms" style="font-size:22px">notifications</span>
+          <span id="notif-badge-dash" style="display:none;position:absolute;top:2px;right:2px;background:#f87171;color:white;font-size:9px;font-weight:800;padding:1px 4px;border-radius:10px;min-width:15px;text-align:center">0</span>
+        </button>
+        <!-- Panel Notifikasi -->
+        <div id="notif-panel-dash" style="display:none;position:absolute;top:38px;right:0;width:300px;max-width:80vw;background:#1b2027;border:1px solid rgba(255,255,255,0.1);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.6);z-index:200;overflow:hidden">
+          <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:Montserrat;font-size:13px;font-weight:700">🔔 Notifikasi</span>
+            <button onclick="document.getElementById('notif-panel-dash').style.display='none'" style="background:none;border:none;color:#9aa0b4;cursor:pointer;font-size:16px">✕</button>
+          </div>
+          <div id="notif-list-dash" style="max-height:360px;overflow-y:auto;padding:6px 0"></div>
+        </div>
+      </div>
+      <div id="conn-badge" style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;background:rgba(154,160,180,0.1);border:1px solid rgba(154,160,180,0.2)">
+        <span id="conn-dot" style="width:6px;height:6px;border-radius:50%;background:#9aa0b4"></span>
+        <span id="conn-text" style="font-size:10px;font-weight:700;color:#9aa0b4">Connecting...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB SWITCHER -->
+<div style="display:flex;gap:8px;padding:16px 18px 0;overflow-x:auto">
+  <button class="pill active" id="tab-rekap" onclick="switchTab('rekap')">💰 Rekap Keuangan</button>
+  <button class="pill" id="tab-bengkel" onclick="switchTab('bengkel')">🏪 Bengkel Affiliator</button>
+</div>
+
+<!-- ══ PANEL REKAP KEUANGAN ══ -->
+<div id="panel-rekap" style="padding:16px 18px 40px">
+
+  <!-- Period selector -->
+  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px">
+    <button class="pill active" id="period-hari-ini" onclick="setPeriod('hari-ini',this)">Hari Ini</button>
+    <button class="pill" id="period-kemarin" onclick="setPeriod('kemarin',this)">Kemarin</button>
+    <button class="pill" id="period-minggu" onclick="setPeriod('minggu',this)">7 Hari</button>
+    <button class="pill" id="period-bulan" onclick="setPeriod('bulan',this)">30 Hari</button>
+    <button class="pill" id="period-tahun" onclick="setPeriod('tahun',this)">1 Tahun</button>
+    <button class="pill" id="period-custom" onclick="setPeriod('custom',this)">📅 Custom</button>
+  </div>
+  <div id="custom-date-wrap" style="display:none;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+    <input type="date" id="custom-dari" class="glass" style="padding:9px 12px;border-radius:10px;color:#dee2ec;border:1px solid rgba(255,255,255,0.1);background:rgba(27,32,39,0.85);font-size:12px;flex:1;min-width:130px"/>
+    <span style="color:#9aa0b4;font-size:12px">s/d</span>
+    <input type="date" id="custom-sampai" class="glass" style="padding:9px 12px;border-radius:10px;color:#dee2ec;border:1px solid rgba(255,255,255,0.1);background:rgba(27,32,39,0.85);font-size:12px;flex:1;min-width:130px"/>
+    <button onclick="applyCustomPeriod()" style="padding:9px 16px;border-radius:10px;background:rgba(233,195,73,0.12);border:1px solid rgba(233,195,73,0.3);color:#e9c349;font-size:12px;font-weight:700;cursor:pointer">Tampilkan</button>
+  </div>
+
+  <!-- Net income - hero number -->
+  <div class="glass" style="padding:24px;margin-bottom:14px;position:relative;overflow:hidden">
+    <div style="font-size:11px;font-weight:700;color:#9aa0b4;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">Net Pendapatan</div>
+    <div id="rk-net" style="font-family:Montserrat;font-size:34px;font-weight:800;color:#4ade80;line-height:1.1">Rp 0</div>
+    <div id="rk-net-sub" style="font-size:12px;color:#9aa0b4;margin-top:6px">Omset dikurangi retur</div>
+    <span class="ms" style="position:absolute;right:16px;top:16px;font-size:44px;color:rgba(74,222,128,0.1)">trending_up</span>
+  </div>
+
+  <!-- Stat grid -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Omset Kotor</div>
+      <div id="rk-omset" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#e9c349">Rp 0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Sudah Diterima</div>
+      <div id="rk-diterima" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#4ade80">Rp 0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Belum Dibayar</div>
+      <div id="rk-piutang" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#fbbf24">Rp 0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Nilai Retur</div>
+      <div id="rk-retur" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#f87171">Rp 0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Unit Terjual</div>
+      <div id="rk-unit" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#60a5fa">0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Transaksi</div>
+      <div id="rk-trx" style="font-family:Montserrat;font-size:19px;font-weight:800;color:#dee2ec">0</div>
+    </div>
+  </div>
+
+  <!-- Per saluran breakdown -->
+  <div class="glass" style="padding:18px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:700;color:#e9c349;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px">Penjualan Per Saluran</div>
+    <div id="rk-saluran"></div>
+  </div>
+
+  <!-- Detail transaksi -->
+  <div class="glass" style="padding:18px">
+    <div style="font-size:11px;font-weight:700;color:#e9c349;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px">Transaksi Terbaru</div>
+    <div id="rk-list"></div>
+  </div>
+</div>
+
+<!-- ══ PANEL BENGKEL AFFILIATOR ══ -->
+<div id="panel-bengkel" style="padding:16px 18px 40px;display:none">
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Total Bengkel</div>
+      <div id="bg-total" style="font-family:Montserrat;font-size:24px;font-weight:800;color:#4ade80">0</div>
+    </div>
+    <div class="glass" style="padding:16px">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Belum Lunas</div>
+      <div id="bg-unpaid" style="font-family:Montserrat;font-size:24px;font-weight:800;color:#fbbf24">Rp 0</div>
+    </div>
+  </div>
+
+  <div id="bg-list"></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA25iTgb3E4lS3bnEA0MtWvw1oATc6bczA",
+    authDomain: "gery-auto-service.firebaseapp.com",
+    projectId: "gery-auto-service",
+    storageBucket: "gery-auto-service.firebasestorage.app",
+    messagingSenderId: "490972794053",
+    appId: "1:490972794053:web:ced5ca522d02849981f4ac",
+    measurementId: "G-J1DG788W3G"
+  };
+
+  window._mutasi = [];
+  window._returList = [];
+  window._affiliators = [];
+  window._orderanAff = [];
+  window._cfg = {};
+  window._connected = { mutasi:false, returList:false, affiliators:false, orderanAff:false, cfg:false };
+
+  function hideSplashDash() {
+    const sp = document.getElementById('splash');
+    if(sp && !sp.classList.contains('splash-out')) {
+      sp.classList.add('splash-out');
+      setTimeout(()=>{ sp.style.display='none'; }, 500);
+    }
+  }
+
+  function setConnUI(status) {
+    const dot = document.getElementById('conn-dot');
+    const txt = document.getElementById('conn-text');
+    const badge = document.getElementById('conn-badge');
+    if(!dot||!txt||!badge) return;
+    if(status==='live') {
+      dot.style.background = '#4ade80'; dot.classList.add('live-dot');
+      txt.textContent = 'Live'; txt.style.color = '#4ade80';
+      badge.style.background = 'rgba(74,222,128,0.1)'; badge.style.borderColor = 'rgba(74,222,128,0.25)';
+      hideSplashDash();
+    } else if(status==='error') {
+      dot.style.background = '#f87171'; dot.classList.remove('live-dot');
+      txt.textContent = 'Gagal Konek'; txt.style.color = '#f87171';
+      badge.style.background = 'rgba(248,113,113,0.1)'; badge.style.borderColor = 'rgba(248,113,113,0.25)';
+    } else {
+      dot.style.background = '#9aa0b4'; dot.classList.remove('live-dot');
+      txt.textContent = 'Connecting...'; txt.style.color = '#9aa0b4';
+    }
+  }
+
+  function checkAllConnected() {
+    const c = window._connected;
+    if(c.mutasi && c.returList && c.affiliators && c.orderanAff && c.cfg) {
+      setConnUI('live');
+      // PENTING: paksa render ulang final setelah SEMUA data termuat.
+      // Ini fix bug "angka lama muncul dulu" - karena tiap listener Firestore
+      // datang di waktu berbeda-beda, render pertama bisa pakai data yang belum lengkap.
+      if(typeof window.renderRekapView === 'function') window.renderRekapView();
+      if(typeof window.renderBengkelView === 'function') window.renderBengkelView();
+      if(typeof window.checkNotifications === 'function') window.checkNotifications();
+    }
+  }
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    onSnapshot(doc(db,'gery_sync','mutasi'), snap => {
+      window._mutasi = snap.exists() ? (snap.data().data||[]) : [];
+      window._connected.mutasi = true; checkAllConnected();
+      if(typeof window.renderRekapView === 'function') window.renderRekapView();
+    }, err => { console.warn('mutasi sync error', err); setConnUI('error'); });
+
+    onSnapshot(doc(db,'gery_sync','returList'), snap => {
+      window._returList = snap.exists() ? (snap.data().data||[]) : [];
+      window._connected.returList = true; checkAllConnected();
+      if(typeof window.renderRekapView === 'function') window.renderRekapView();
+    }, err => { console.warn('returList sync error', err); setConnUI('error'); });
+
+    onSnapshot(doc(db,'gery_sync','affiliators'), snap => {
+      window._affiliators = snap.exists() ? (snap.data().data||[]) : [];
+      window._connected.affiliators = true; checkAllConnected();
+      if(typeof window.renderBengkelView === 'function') window.renderBengkelView();
+    }, err => { console.warn('affiliators sync error', err); setConnUI('error'); });
+
+    onSnapshot(doc(db,'gery_sync','orderanAff'), snap => {
+      window._orderanAff = snap.exists() ? (snap.data().data||[]) : [];
+      window._connected.orderanAff = true; checkAllConnected();
+      if(typeof window.renderBengkelView === 'function') window.renderBengkelView();
+      if(typeof window.renderRekapView === 'function') window.renderRekapView();
+      if(typeof window.checkNotifications === 'function') window.checkNotifications();
+    }, err => { console.warn('orderanAff sync error', err); setConnUI('error'); });
+
+    onSnapshot(doc(db,'gery_sync','cfg'), snap => {
+      window._cfg = snap.exists() ? (snap.data().data||{}) : {};
+      window._connected.cfg = true; checkAllConnected();
+      if(typeof window.checkNotifications === 'function') window.checkNotifications();
+    }, err => { console.warn('cfg sync error', err); setConnUI('error'); });
+
+  } catch(e) {
+    console.error('Firebase init gagal:', e);
+    setConnUI('error');
+  }
+</script>
+
+<script>
+// ══════════ UI LOGIC (non-module, baca window._mutasi dkk yang diisi module di atas) ══════════
+let activeTab = 'rekap';
+let activePeriod = 'hari-ini';
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('panel-rekap').style.display = tab==='rekap' ? 'block' : 'none';
+  document.getElementById('panel-bengkel').style.display = tab==='bengkel' ? 'block' : 'none';
+  document.getElementById('tab-rekap').classList.toggle('active', tab==='rekap');
+  document.getElementById('tab-bengkel').classList.toggle('active', tab==='bengkel');
+  if(tab==='rekap') renderRekapView(); else renderBengkelView();
+}
+
+function setPeriod(p, el) {
+  activePeriod = p;
+  document.querySelectorAll('#panel-rekap .pill').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const customWrap = document.getElementById('custom-date-wrap');
+  if(customWrap) customWrap.style.display = p==='custom' ? 'flex' : 'none';
+  if(p==='custom') {
+    // Biarkan kosong - user pilih sendiri tanggalnya, tidak auto-isi hari ini
+    return; // tunggu user klik "Tampilkan"
+  }
+  renderRekapView();
+}
+
+function todayISOLocal() { return new Date().toLocaleDateString('sv-SE'); }
+function strToISO(s) {
+  if(!s) return '';
+  const p = s.split('/');
+  return p.length===3 ? `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}` : '';
+}
+function getDateRange(period) {
+  const now = new Date();
+  const today = todayISOLocal();
+  if(period==='hari-ini') return [today, today];
+  if(period==='kemarin') { const d=new Date(now); d.setDate(d.getDate()-1); const s=d.toLocaleDateString('sv-SE'); return [s,s]; }
+  if(period==='minggu') { const d=new Date(now); d.setDate(d.getDate()-7); return [d.toLocaleDateString('sv-SE'), today]; }
+  if(period==='bulan') { const d=new Date(now); d.setDate(d.getDate()-30); return [d.toLocaleDateString('sv-SE'), today]; }
+  if(period==='tahun') { const d=new Date(now); d.setFullYear(d.getFullYear()-1); return [d.toLocaleDateString('sv-SE'), today]; }
+  if(period==='custom') {
+    const dari = document.getElementById('custom-dari')?.value || today;
+    const sampai = document.getElementById('custom-sampai')?.value || today;
+    return [dari, sampai];
+  }
+  return [today, today];
+}
+function applyCustomPeriod() {
+  const dari = document.getElementById('custom-dari')?.value;
+  const sampai = document.getElementById('custom-sampai')?.value;
+  if(!dari || !sampai) { alert('Pilih tanggal dari dan sampai dulu'); return; }
+  if(dari > sampai) { alert('Tanggal "dari" tidak boleh lebih besar dari "sampai"'); return; }
+  renderRekapView();
+}
+
+// ─── HELPER PAYMENT STATUS PER ITEM (sinkron dengan app utama) ───
+function itemsHaveDibayarField(order) {
+  return (order.items||[]).some(it => typeof it.dibayar !== 'undefined');
+}
+function getOrderPayStatusDash(order) {
+  const items = order.items||[];
+  if(!items.length || !itemsHaveDibayarField(order)) {
+    return order.sudahBayar ? 'lunas' : 'belum';
+  }
+  const paidCount = items.filter(it=>it.dibayar).length;
+  if(paidCount === 0) return 'belum';
+  if(paidCount === items.length) return 'lunas';
+  return 'sebagian';
+}
+function getOrderUnpaidAmountDash(order) {
+  const items = order.items||[];
+  if(!items.length || !itemsHaveDibayarField(order)) {
+    return order.sudahBayar ? 0 : (order.totalGery||0);
+  }
+  return items.filter(it=>!it.dibayar).reduce((s,it)=>s+(it.hargaJual||0)*it.qty,0);
+}
+function getOrderPaidAmountDash(order) {
+  const items = order.items||[];
+  if(!items.length || !itemsHaveDibayarField(order)) {
+    return order.sudahBayar ? (order.totalGery||0) : 0;
+  }
+  return items.filter(it=>it.dibayar).reduce((s,it)=>s+(it.hargaJual||0)*it.qty,0);
+}
+
+const jKelLabel = {'jual-bengkel':'🔧 Bengkel','jual-online':'🛒 Online','pemakaian':'⚙️ Pemakaian','retur':'↩️ Retur','lainnya':'📋 Lainnya'};
+
+// ─── CEK STATUS BAYAR MUTASI (mirror logic dari app utama) ───
+function isMutasiPaidDash(m) {
+  if(m.jenisKeluar !== 'jual-online' || !(m.keterangan||'').includes('Affiliator:')) return true;
+  const orderanAff = window._orderanAff || [];
+  if(m.affOrderId !== undefined) {
+    const order = orderanAff.find(o=>o.id===m.affOrderId);
+    if(!order) return true;
+    const item = (order.items||[])[m.affItemIdx];
+    if(!item) return true;
+    if(typeof item.dibayar === 'undefined') return order.sudahBayar;
+    return !!item.dibayar;
+  }
+  const match = (m.keterangan||'').match(/Order:\s*([^\|]+)/);
+  if(match) {
+    const noOrder = match[1].trim();
+    const order = orderanAff.find(o=>o.noOrder===noOrder);
+    if(order) {
+      const item = (order.items||[]).find(it=>it.namaItem===m.namaItem);
+      if(item && typeof item.dibayar !== 'undefined') return !!item.dibayar;
+      return order.sudahBayar;
+    }
+  }
+  return true;
+}
+
+function renderRekapView() {
+  const mutasi = window._mutasi || [];
+  const returList = window._returList || [];
+  const [dari, smp] = getDateRange(activePeriod);
+
+  const data = mutasi.filter(m => {
+    if(m.jenis!=='keluar') return false;
+    if(['retur','lainnya'].includes(m.jenisKeluar)) return false;
+    const iso = strToISO(m.tanggal);
+    return iso>=dari && iso<=smp;
+  }).map(m => ({...m, isPaid: isMutasiPaidDash(m)}));
+  const returPeriode = returList.filter(r => {
+    const iso = strToISO(r.tanggal);
+    return iso>=dari && iso<=smp;
+  });
+
+  const totalOmset    = data.reduce((s,m)=>s+(m.total||0),0);
+  const totalDiterima = data.filter(m=>m.isPaid).reduce((s,m)=>s+(m.total||0),0);
+  const totalPiutang  = data.filter(m=>!m.isPaid).reduce((s,m)=>s+(m.total||0),0);
+  const totalRetur = returPeriode.reduce((s,r)=>s+(r.nilai||0),0);
+  const netOmset = totalDiterima - totalRetur;
+  const totalUnit = data.reduce((s,m)=>s+(m.qty||0),0);
+
+  document.getElementById('rk-net').textContent = 'Rp ' + netOmset.toLocaleString('id-ID');
+  document.getElementById('rk-omset').textContent = 'Rp ' + totalOmset.toLocaleString('id-ID');
+  document.getElementById('rk-diterima').textContent = 'Rp ' + totalDiterima.toLocaleString('id-ID');
+  document.getElementById('rk-piutang').textContent = 'Rp ' + totalPiutang.toLocaleString('id-ID');
+  document.getElementById('rk-retur').textContent = '- Rp ' + totalRetur.toLocaleString('id-ID');
+  document.getElementById('rk-unit').textContent = totalUnit;
+  document.getElementById('rk-trx').textContent = data.length;
+
+  // Per saluran
+  const bySaluran = {};
+  data.forEach(m => {
+    const k = jKelLabel[m.jenisKeluar] || m.jenisKeluar || 'Lainnya';
+    if(!bySaluran[k]) bySaluran[k] = {count:0, total:0};
+    bySaluran[k].count += m.qty||0;
+    bySaluran[k].total += m.total||0;
+  });
+  const saluranEl = document.getElementById('rk-saluran');
+  const saluranEntries = Object.entries(bySaluran);
+  if(!saluranEntries.length) {
+    saluranEl.innerHTML = `<div style="text-align:center;padding:20px;color:#9aa0b4;font-size:13px">Belum ada penjualan di periode ini</div>`;
+  } else {
+    saluranEl.innerHTML = saluranEntries.map(([k,v]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <div>
+          <div style="font-size:13px;font-weight:600">${k}</div>
+          <div style="font-size:11px;color:#9aa0b4">${v.count} unit</div>
+        </div>
+        <div style="font-family:Montserrat;font-weight:800;color:#e9c349;font-size:14px">Rp ${v.total.toLocaleString('id-ID')}</div>
+      </div>`).join('');
+  }
+
+  // Detail transaksi (max 15 terbaru)
+  const listEl = document.getElementById('rk-list');
+  const sorted = [...data].sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,15);
+  if(!sorted.length) {
+    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:#9aa0b4;font-size:13px">
+      <span class="ms" style="font-size:32px;display:block;margin-bottom:8px">receipt_long</span>
+      Belum ada transaksi</div>`;
+  } else {
+    listEl.innerHTML = sorted.map(m => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <div style="min-width:0;flex:1">
+          <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.namaItem} ${!m.isPaid?'<span class="badge b-warn" style="font-size:8px;margin-left:4px">PIUTANG</span>':''}</div>
+          <div style="font-size:11px;color:#9aa0b4">${m.tanggal} · ${m.qty} ${m.satuan}</div>
+        </div>
+        <div style="font-family:Montserrat;font-weight:700;color:${m.isPaid?'#4ade80':'#fbbf24'};font-size:13px;flex-shrink:0;margin-left:10px">Rp ${(m.total||0).toLocaleString('id-ID')}</div>
+      </div>`).join('');
+  }
+}
+
+function renderBengkelView() {
+  const affiliators = window._affiliators || [];
+  const orderanAff = window._orderanAff || [];
+
+  document.getElementById('bg-total').textContent = affiliators.length;
+
+  const totalUnpaid = orderanAff.filter(o=>o.status==='selesai').reduce((s,o)=>s+getOrderUnpaidAmountDash(o),0);
+  document.getElementById('bg-unpaid').textContent = 'Rp ' + totalUnpaid.toLocaleString('id-ID');
+
+  const listEl = document.getElementById('bg-list');
+  if(!affiliators.length) {
+    listEl.innerHTML = `<div class="glass" style="padding:32px;text-align:center;color:#9aa0b4">
+      <span class="ms" style="font-size:40px;display:block;margin-bottom:10px">store</span>
+      Belum ada bengkel affiliator</div>`;
+    return;
+  }
+
+  const statusLabel = {pending:'⏳ Pending', diproses:'🔧 Diproses', dikirim:'📦 Dikirim', selesai:'✅ Selesai'};
+  const reminderHari = getReminderHariDash();
+  const now = Date.now();
+
+  listEl.innerHTML = affiliators.map(aff => {
+    const orders = orderanAff.filter(o => o.affId === aff.id).sort((a,b)=>(b.ts||0)-(a.ts||0));
+    const pending = orders.filter(o => o.status==='pending').length;
+    const unpaidTotal = orders.filter(o=>o.status==='selesai').reduce((s,o)=>s+getOrderUnpaidAmountDash(o),0);
+    const paidTotal = orders.filter(o=>o.status==='selesai').reduce((s,o)=>s+getOrderPaidAmountDash(o),0);
+    const fotoHTML = aff.foto && aff.foto !== '[foto-tersimpan]'
+      ? `<img src="${aff.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`
+      : `<span class="ms" style="font-size:22px;color:#9aa0b4">store</span>`;
+    const isExpanded = expandedBengkelId === aff.id;
+
+    return `
+    <div class="glass" style="padding:16px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer" onclick="toggleBengkelDetail(${aff.id})">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(37,42,50,0.9);border:2px solid rgba(233,195,73,0.3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center">${fotoHTML}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${aff.nama}</div>
+          <div style="font-size:11px;color:#9aa0b4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${aff.alamat ? '📍 '+aff.alamat : ''}</div>
+        </div>
+        ${pending>0 ? `<span class="badge b-warn">${pending} baru</span>` : ''}
+        <span class="ms" style="font-size:20px;color:#9aa0b4;transition:transform .2s;transform:rotate(${isExpanded?'180':'0'}deg)">expand_more</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(255,255,255,0.06)">
+        <div>
+          <div style="font-size:10px;color:#9aa0b4;text-transform:uppercase;letter-spacing:.4px">Total Order</div>
+          <div style="font-size:13px;font-weight:700;margin-top:2px">${orders.length}x</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:#9aa0b4;text-transform:uppercase;letter-spacing:.4px">Sudah Lunas</div>
+          <div style="font-size:13px;font-weight:700;margin-top:2px;color:#4ade80">Rp ${paidTotal.toLocaleString('id-ID')}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:#9aa0b4;text-transform:uppercase;letter-spacing:.4px">Belum Bayar</div>
+          <div style="font-size:13px;font-weight:800;margin-top:2px;color:${unpaidTotal>0?'#fbbf24':'#4ade80'}">Rp ${unpaidTotal.toLocaleString('id-ID')}</div>
+        </div>
+      </div>
+
+      ${isExpanded ? `
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08)">
+        <div style="font-size:10px;font-weight:700;color:#e9c349;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px">Rincian Semua Order (${orders.length})</div>
+        ${!orders.length ? `<div style="text-align:center;padding:16px;color:#9aa0b4;font-size:12px">Belum ada order</div>` : orders.map(o => {
+          const payStatus = getOrderPayStatusDash(o);
+          const isOverdue = o.status==='selesai' && payStatus!=='lunas' && (now-(o.ts||0)) > (reminderHari*24*60*60*1000);
+          const payBadgeDash = {lunas:'b-ok', sebagian:'b-warn', belum:'b-err'};
+          const payLabelDash = {lunas:'✅ LUNAS', sebagian:'🟡 SEBAGIAN', belum:'⏳ BELUM BAYAR'};
+          return `
+          <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-bottom:8px;${isOverdue?'border:1px solid rgba(248,113,113,0.3)':''}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:12px;font-weight:700;color:#e9c349">${o.noOrder}</span>
+              <span class="badge ${o.status==='selesai'?'b-ok':'b-info'}" style="font-size:9px">${statusLabel[o.status]||o.status}</span>
+            </div>
+            <div style="font-size:11px;color:#9aa0b4;margin-bottom:6px">${o.tgl ? new Date(o.tgl).toLocaleDateString('id-ID') : ''} ${o.platform?'· '+o.platform:''}</div>
+            ${(o.items||[]).length ? `<div style="margin-bottom:8px">
+              ${o.items.map(it=>`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:4px 0;color:${it.dibayar?'#4ade80':'#c6c6cb'}">
+                <span style="display:flex;align-items:center;gap:5px">${it.dibayar?'✅':'⬜'} ${it.namaItem} ×${it.qty}</span>
+                <span>Rp ${((it.hargaJual||0)*it.qty).toLocaleString('id-ID')}</span>
+              </div>`).join('')}
+            </div>` : ''}
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+              <span style="font-size:12px;font-weight:700">Total: Rp ${(o.totalGery||0).toLocaleString('id-ID')}</span>
+              ${o.status==='selesai' ? `<span class="badge ${isOverdue?'b-err':payBadgeDash[payStatus]}" style="font-size:9px">${isOverdue?'⚠️ JATUH TEMPO':payLabelDash[payStatus]}</span>` : ''}
+            </div>
+            ${o.status==='selesai' && payStatus==='sebagian' ? `<div style="font-size:10px;color:#fbbf24;margin-top:6px;text-align:right">Sisa Rp ${getOrderUnpaidAmountDash(o).toLocaleString('id-ID')}</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ══════════ NOTIFIKASI SYSTEM ══════════
+// Ingat order mana yang udah pernah "lunas" supaya bisa deteksi perubahan baru
+let knownPaidIds = JSON.parse(localStorage.getItem('dash_known_paid') || '[]');
+let dismissedNotifIds = JSON.parse(localStorage.getItem('dash_dismissed_notif') || '[]');
+
+function getReminderHariDash() {
+  return parseInt(window._cfg?.reminderHari) || 3;
+}
+
+function checkNotifications() {
+  const orderanAff = window._orderanAff || [];
+  const affiliators = window._affiliators || [];
+  const notifs = [];
+
+  // 1. Jatuh tempo - order selesai belum bayar melebihi reminder hari
+  const now = Date.now();
+  const reminderMs = getReminderHariDash() * 24 * 60 * 60 * 1000;
+  const overdue = orderanAff.filter(o => o.status==='selesai' && getOrderPayStatusDash(o)!=='lunas' && (now-(o.ts||0)) > reminderMs);
+  overdue.forEach(o => {
+    const aff = affiliators.find(a=>a.id===o.affId);
+    const sisa = getOrderUnpaidAmountDash(o);
+    notifs.push({
+      id: 'overdue-'+o.id,
+      type: 'warn', icon: 'schedule',
+      title: `${aff?.nama||'Bengkel'} Jatuh Tempo`,
+      body: `Order ${o.noOrder} · Sisa Rp ${sisa.toLocaleString('id-ID')} · belum lunas >${getReminderHariDash()} hari`,
+    });
+  });
+
+  // 2. Baru lunas - deteksi order yang BARU aja jadi FULL lunas (semua item dibayar)
+  const currentPaidIds = orderanAff.filter(o=>getOrderPayStatusDash(o)==='lunas').map(o=>o.id);
+  const newlyPaid = currentPaidIds.filter(id => !knownPaidIds.includes(id));
+  newlyPaid.forEach(id => {
+    const o = orderanAff.find(x=>x.id===id);
+    if(!o) return;
+    const aff = affiliators.find(a=>a.id===o.affId);
+    notifs.push({
+      id: 'paid-'+o.id,
+      type: 'ok', icon: 'check_circle',
+      title: `${aff?.nama||'Bengkel'} Sudah Lunas! 🎉`,
+      body: `Order ${o.noOrder} · Rp ${(o.totalGery||0).toLocaleString('id-ID')} · ${o.tglBayar||''}`,
+    });
+  });
+  // Update known paid ids untuk deteksi berikutnya
+  if(currentPaidIds.length) {
+    knownPaidIds = currentPaidIds;
+    localStorage.setItem('dash_known_paid', JSON.stringify(knownPaidIds));
+  }
+
+  // Filter yang sudah di-dismiss
+  const visibleNotifs = notifs.filter(n => !dismissedNotifIds.includes(n.id));
+
+  renderNotifPanelDash(visibleNotifs);
+  const badge = document.getElementById('notif-badge-dash');
+  if(badge) {
+    badge.style.display = visibleNotifs.length>0 ? 'flex' : 'none';
+    badge.style.alignItems = 'center'; badge.style.justifyContent='center';
+    badge.textContent = visibleNotifs.length > 9 ? '9+' : visibleNotifs.length;
+  }
+}
+
+function renderNotifPanelDash(notifs) {
+  const list = document.getElementById('notif-list-dash');
+  if(!list) return;
+  if(!notifs.length) {
+    list.innerHTML = `<div style="padding:24px;text-align:center;color:#9aa0b4">
+      <span class="ms" style="font-size:32px;display:block;margin-bottom:8px">check_circle</span>
+      <div style="font-size:12px">Semua aman, tidak ada notifikasi</div></div>`;
+    return;
+  }
+  const colorMap = {
+    warn: {bg:'rgba(251,191,36,0.08)', border:'rgba(251,191,36,0.2)', icon:'#fbbf24'},
+    ok:   {bg:'rgba(74,222,128,0.08)', border:'rgba(74,222,128,0.2)', icon:'#4ade80'},
+  };
+  list.innerHTML = notifs.map(n => {
+    const col = colorMap[n.type] || colorMap.warn;
+    return `<div style="margin:6px 10px;background:${col.bg};border:1px solid ${col.border};border-radius:10px;padding:11px">
+      <div style="display:flex;align-items:flex-start;gap:9px">
+        <span class="ms" style="font-size:18px;color:${col.icon};flex-shrink:0">${n.icon}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:700">${n.title}</div>
+          <div style="font-size:11px;color:#9aa0b4;margin-top:2px">${n.body}</div>
+        </div>
+        <button onclick="dismissNotif('${n.id}')" style="background:none;border:none;color:#9aa0b4;cursor:pointer;font-size:14px;flex-shrink:0;padding:0 2px">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function dismissNotif(id) {
+  dismissedNotifIds.push(id);
+  localStorage.setItem('dash_dismissed_notif', JSON.stringify(dismissedNotifIds));
+  checkNotifications();
+}
+
+function toggleNotifPanel() {
+  const panel = document.getElementById('notif-panel-dash');
+  if(!panel) return;
+  if(panel.style.display==='none'||panel.style.display==='') {
+    panel.style.display = 'block';
+    setTimeout(()=>document.addEventListener('click', closeNotifOutside, {once:true}), 100);
+  } else {
+    panel.style.display = 'none';
+  }
+}
+function closeNotifOutside(e) {
+  const panel = document.getElementById('notif-panel-dash');
+  const btn = document.getElementById('notif-bell-btn');
+  if(panel && !panel.contains(e.target) && e.target !== btn) panel.style.display = 'none';
+}
+
+window.checkNotifications = checkNotifications;
+
+// ══════════ EXPAND DETAIL ORDER PER BENGKEL ══════════
+let expandedBengkelId = null;
+function toggleBengkelDetail(affId) {
+  expandedBengkelId = expandedBengkelId === affId ? null : affId;
+  renderBengkelView();
+}
+
+// ─── JAM & TANGGAL REALTIME ───
+function tickDash() {
+  const n = new Date();
+  const dateEl = document.getElementById('dash-date');
+  const clockEl = document.getElementById('dash-clock');
+  if(dateEl) dateEl.textContent = n.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
+  if(clockEl) clockEl.textContent = n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Asia/Jakarta'});
+}
+setInterval(tickDash, 1000);
+tickDash();
+
+// SAFETY NET INDEPENDEN - tidak bergantung pada Firebase module sama sekali
+// Kalau Firebase gagal load total (internet mati/CDN diblokir), splash TETAP hilang setelah 6 detik
+function hideSplashIndependent() {
+  const sp = document.getElementById('splash');
+  if(sp && !sp.classList.contains('splash-out')) {
+    sp.classList.add('splash-out');
+    setTimeout(()=>{ sp.style.display='none'; }, 500);
+  }
+}
+setTimeout(hideSplashIndependent, 6000);
+
+// Init tampilan awal (kosong dulu, nanti keisi begitu Firestore listener dapat data)
+renderRekapView();
+renderBengkelView();
+checkNotifications();
+</script>
+</body>
+</html>
