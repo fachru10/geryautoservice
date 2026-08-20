@@ -360,29 +360,18 @@ function getItemSisaAktifDash(it) {
 function getActiveItemsDash(order) {
   return (order.items||[]).filter(it => !it.diretur);
 }
-function getOrderPayStatusDash(order) {
-  const items = order.items||[];
-  if(!items.length || !itemsHaveDibayarField(order)) {
-    return order.sudahBayar ? 'lunas' : 'belum';
-  }
-  const activeItems = getActiveItemsDash(order);
-  const hasOngkir = (order.ongkir||0) > 0;
-  const totalUnits = activeItems.length + (hasOngkir ? 1 : 0);
-  if(totalUnits === 0) return 'lunas';
-  const paidCount = activeItems.filter(it=>it.dibayar).length + (hasOngkir && order.ongkirDibayar ? 1 : 0);
-  if(paidCount === 0) return 'belum';
-  if(paidCount === totalUnits) return 'lunas';
-  return 'sebagian';
+function getItemJumlahDibayarDash(it) {
+  if(typeof it.jumlahDibayar === 'number') return it.jumlahDibayar;
+  return it.dibayar ? (it.hargaJual||0)*getItemSisaAktifDash(it) : 0;
 }
-function getOrderUnpaidAmountDash(order) {
-  const items = order.items||[];
-  if(!items.length || !itemsHaveDibayarField(order)) {
-    return order.sudahBayar ? 0 : (order.totalGery||0);
-  }
+function getItemTagihanDash(it) {
+  return (it.hargaJual||0) * getItemSisaAktifDash(it);
+}
+function getOrderTotalTagihanDash(order) {
   const activeItems = getActiveItemsDash(order);
-  let unpaid = activeItems.filter(it=>!it.dibayar).reduce((s,it)=>s+(it.hargaJual||0)*getItemSisaAktifDash(it),0);
-  if((order.ongkir||0) > 0 && !order.ongkirDibayar) unpaid += order.ongkir;
-  return unpaid;
+  let total = activeItems.reduce((s,it)=>s+getItemTagihanDash(it),0);
+  total += (order.ongkir||0);
+  return total;
 }
 function getOrderPaidAmountDash(order) {
   const items = order.items||[];
@@ -390,9 +379,31 @@ function getOrderPaidAmountDash(order) {
     return order.sudahBayar ? (order.totalGery||0) : 0;
   }
   const activeItems = getActiveItemsDash(order);
-  let paid = activeItems.filter(it=>it.dibayar).reduce((s,it)=>s+(it.hargaJual||0)*getItemSisaAktifDash(it),0);
+  let paid = activeItems.reduce((s,it)=>{
+    const tagihan = getItemTagihanDash(it);
+    return s + Math.min(getItemJumlahDibayarDash(it), tagihan);
+  },0);
   if((order.ongkir||0) > 0 && order.ongkirDibayar) paid += order.ongkir;
   return paid;
+}
+function getOrderUnpaidAmountDash(order) {
+  const items = order.items||[];
+  if(!items.length || !itemsHaveDibayarField(order)) {
+    return order.sudahBayar ? 0 : (order.totalGery||0);
+  }
+  return Math.max(0, getOrderTotalTagihanDash(order) - getOrderPaidAmountDash(order));
+}
+function getOrderPayStatusDash(order) {
+  const items = order.items||[];
+  if(!items.length || !itemsHaveDibayarField(order)) {
+    return order.sudahBayar ? 'lunas' : 'belum';
+  }
+  const total = getOrderTotalTagihanDash(order);
+  if(total <= 0) return 'lunas';
+  const paid = getOrderPaidAmountDash(order);
+  if(paid <= 0) return 'belum';
+  if(paid >= total) return 'lunas';
+  return 'sebagian';
 }
 
 function getOrderReturAmountDash(order) {
@@ -626,9 +637,16 @@ function renderBengkelView() {
                 </div>`;
                 const sisaAktif = getItemSisaAktifDash(it);
                 const qtyR = it.qtyDiretur||0;
-                return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:4px 0;color:${it.dibayar?'#4ade80':'#c6c6cb'}">
-                <span style="display:flex;align-items:center;gap:5px">${it.dibayar?'✅':'⬜'} ${it.namaItem} ×${sisaAktif}${qtyR>0?` <span style="color:#f87171;font-size:9px">(${qtyR} diretur)</span>`:''}</span>
-                <span>Rp ${((it.hargaJual||0)*sisaAktif).toLocaleString('id-ID')}</span>
+                const tagihanIt = getItemTagihanDash(it);
+                const dibayarIt = Math.min(getItemJumlahDibayarDash(it), tagihanIt);
+                const isLunasIt = dibayarIt >= tagihanIt && tagihanIt > 0;
+                const isDPIt = dibayarIt > 0 && !isLunasIt;
+                return `<div style="padding:4px 0">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:${isLunasIt?'#4ade80':isDPIt?'#60a5fa':'#c6c6cb'}">
+                <span style="display:flex;align-items:center;gap:5px">${isLunasIt?'✅':isDPIt?'🔵':'⬜'} ${it.namaItem} ×${sisaAktif}${qtyR>0?` <span style="color:#f87171;font-size:9px">(${qtyR} diretur)</span>`:''}</span>
+                <span>Rp ${tagihanIt.toLocaleString('id-ID')}</span>
+              </div>
+              ${isDPIt?`<div style="display:flex;justify-content:space-between;font-size:9px;color:#60a5fa;padding-left:20px"><span>DP: Rp ${dibayarIt.toLocaleString('id-ID')}</span><span>Sisa: Rp ${(tagihanIt-dibayarIt).toLocaleString('id-ID')}</span></div>`:''}
               </div>`;
               }).join('')}
               ${(o.ongkir||0)>0 ? `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:4px 0;color:${o.ongkirDibayar?'#4ade80':'#60a5fa'}">
