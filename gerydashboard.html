@@ -470,7 +470,12 @@ function getKasMasukDataDash() {
   const rows = [];
   orderanAff.forEach(o=>{
     (o.items||[]).forEach(it=>{
-      if(it.dibayar && it.tglDibayar) {
+      if(Array.isArray(it.riwayatBayar) && it.riwayatBayar.length) {
+        it.riwayatBayar.forEach(rb=>{
+          const iso = strToISO(rb.tanggal);
+          if(iso>=dari && iso<=smp) rows.push({affNama:o.affNama, noOrder:o.noOrder, namaItem:it.namaItem, nilai:rb.jumlah, tanggal:rb.tanggal});
+        });
+      } else if(it.dibayar && it.tglDibayar) {
         const iso = strToISO(it.tglDibayar);
         if(iso>=dari && iso<=smp) rows.push({affNama:o.affNama, noOrder:o.noOrder, namaItem:it.namaItem, nilai:(it.hargaJual||0)*it.qty, tanggal:it.tglDibayar});
       }
