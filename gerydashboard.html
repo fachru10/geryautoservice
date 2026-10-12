@@ -92,6 +92,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0f141b;color:#dee2ec;mi
 <div style="display:flex;gap:8px;padding:16px 18px 0;overflow-x:auto">
   <button class="pill active" id="tab-rekap" onclick="switchTab('rekap')">💰 Rekap Keuangan</button>
   <button class="pill" id="tab-bengkel" onclick="switchTab('bengkel')">🏪 Bengkel Affiliator</button>
+  <button class="pill" id="tab-tagihan" onclick="switchTab('tagihan')">🧾 Tagihan Bengkel <span id="tg-tab-badge" style="display:none;margin-left:4px;background:rgba(248,113,113,0.2);color:#f87171;font-size:10px;padding:1px 7px;border-radius:10px">0</span></button>
 </div>
 
 <!-- ══ PANEL REKAP KEUANGAN ══ -->
@@ -173,6 +174,26 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0f141b;color:#dee2ec;mi
 </div>
 
 <!-- ══ PANEL BENGKEL AFFILIATOR ══ -->
+<!-- ══ PANEL TAGIHAN BENGKEL ══ -->
+<div id="panel-tagihan" style="padding:16px 18px 40px;display:none">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+    <div class="glass" style="padding:16px;grid-column:1 / -1">
+      <div style="font-size:10px;font-weight:700;color:#9aa0b4;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Total Piutang Bengkel</div>
+      <div id="tg-total" style="font-family:Montserrat;font-size:26px;font-weight:800;color:#f87171">Rp 0</div>
+      <div id="tg-total-sub" style="font-size:11px;color:#9aa0b4;margin-top:4px"></div>
+    </div>
+    <div class="glass" style="padding:14px"><div style="font-size:10px;font-weight:700;color:#9aa0b4;text-transform:uppercase;margin-bottom:4px">Belum Bayar</div><div id="tg-n-belum" style="font-family:Montserrat;font-size:20px;font-weight:800;color:#fb923c">0</div></div>
+    <div class="glass" style="padding:14px"><div style="font-size:10px;font-weight:700;color:#9aa0b4;text-transform:uppercase;margin-bottom:4px">Bayar Sebagian</div><div id="tg-n-seb" style="font-family:Montserrat;font-size:20px;font-weight:800;color:#e9c349">0</div></div>
+  </div>
+  <input id="tg-search" oninput="renderTagihanView()" placeholder="Cari nama bengkel / no. order..." class="glass" style="width:100%;box-sizing:border-box;padding:11px 14px;border-radius:12px;color:#dee2ec;border:1px solid rgba(255,255,255,0.1);background:rgba(27,32,39,0.85);font-size:13px;margin-bottom:10px;outline:none"/>
+  <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:14px">
+    <button class="pill active" data-f="all" onclick="setTgFilter('all',this)">Semua</button>
+    <button class="pill" data-f="belum" onclick="setTgFilter('belum',this)">Belum Bayar</button>
+    <button class="pill" data-f="sebagian" onclick="setTgFilter('sebagian',this)">Bayar Sebagian</button>
+  </div>
+  <div id="tg-list"></div>
+</div>
+
 <div id="panel-bengkel" style="padding:16px 18px 40px;display:none">
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
@@ -271,6 +292,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0f141b;color:#dee2ec;mi
       window._affiliators = snap.exists() ? (snap.data().data||[]) : [];
       window._connected.affiliators = true; checkAllConnected();
       if(typeof window.renderBengkelView === 'function') window.renderBengkelView();
+      if(typeof window.renderTagihanView === 'function') window.renderTagihanView();
     }, err => { console.warn('affiliators sync error', err); setConnUI('error'); });
 
     onSnapshot(doc(db,'gery_sync','orderanAff'), snap => {
@@ -278,6 +300,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#0f141b;color:#dee2ec;mi
       window._connected.orderanAff = true; checkAllConnected();
       if(typeof window.renderBengkelView === 'function') window.renderBengkelView();
       if(typeof window.renderRekapView === 'function') window.renderRekapView();
+      if(typeof window.renderTagihanView === 'function') window.renderTagihanView();
       if(typeof window.checkNotifications === 'function') window.checkNotifications();
     }, err => { console.warn('orderanAff sync error', err); setConnUI('error'); });
 
@@ -304,7 +327,9 @@ function switchTab(tab) {
   document.getElementById('panel-bengkel').style.display = tab==='bengkel' ? 'block' : 'none';
   document.getElementById('tab-rekap').classList.toggle('active', tab==='rekap');
   document.getElementById('tab-bengkel').classList.toggle('active', tab==='bengkel');
-  if(tab==='rekap') renderRekapView(); else renderBengkelView();
+  document.getElementById('panel-tagihan').style.display = tab==='tagihan' ? 'block' : 'none';
+  document.getElementById('tab-tagihan').classList.toggle('active', tab==='tagihan');
+  if(tab==='rekap') renderRekapView(); else if(tab==='tagihan') renderTagihanView(); else renderBengkelView();
 }
 
 function setPeriod(p, el) {
@@ -560,6 +585,94 @@ function renderRekapView() {
         <div style="font-family:Montserrat;font-weight:700;color:${m.isPaid?'#4ade80':'#fbbf24'};font-size:13px;flex-shrink:0;margin-left:10px">Rp ${(m.total||0).toLocaleString('id-ID')}</div>
       </div>`).join('');
   }
+}
+
+// ─── TAGIHAN BENGKEL (read-only, hanya order yang BELUM LUNAS) ───
+let tgFilter = 'all';
+const tgOpen = {};
+function escD(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rpD(n){ return 'Rp '+Math.round(n||0).toLocaleString('id-ID'); }
+function setTgFilter(f, el){
+  tgFilter=f;
+  document.querySelectorAll('#panel-tagihan [data-f]').forEach(b=>b.classList.toggle('active', b===el));
+  renderTagihanView();
+}
+function toggleTg(k){ tgOpen[k]=!tgOpen[k]; renderTagihanView(); }
+function buildTagihanDash(){
+  const affs = window._affiliators || [];
+  const map = {};
+  (window._orderanAff||[]).forEach(o=>{
+    if(o.status!=='selesai' && o.status!=='dikirim') return;
+    if(getOrderPayStatusDash(o)==='lunas') return;
+    const k = o.affId || ('nm:'+(o.affNama||'?'));
+    if(!map[k]){
+      const a = affs.find(x=>x.id===o.affId);
+      map[k] = { key:String(k), nama:(a&&a.nama)||o.affNama||'(tanpa nama)', orders:[], total:0, paid:0, sisa:0 };
+    }
+    const total = getOrderTotalTagihanDash(o);
+    const paid = Math.min(getOrderPaidAmountDash(o), total);
+    const sisa = getOrderUnpaidAmountDash(o);
+    map[k].orders.push({o,total,paid,sisa,status:getOrderPayStatusDash(o)});
+    map[k].total+=total; map[k].paid+=paid; map[k].sisa+=sisa;
+  });
+  return Object.values(map).map(g=>{
+    g.status = g.paid<=0 ? 'belum' : 'sebagian';
+    g.orders.sort((a,b)=>(a.o.ts||0)-(b.o.ts||0));
+    return g;
+  });
+}
+function renderTagihanView(){
+  const listEl = document.getElementById('tg-list'); if(!listEl) return;
+  const all = buildTagihanDash();
+  const totalPiutang = all.reduce((s,g)=>s+g.sisa,0);
+  const nB = all.filter(g=>g.status==='belum').length, nS = all.filter(g=>g.status==='sebagian').length;
+  document.getElementById('tg-total').textContent = rpD(totalPiutang);
+  document.getElementById('tg-total-sub').textContent = all.length+' bengkel belum lunas';
+  document.getElementById('tg-n-belum').textContent = nB;
+  document.getElementById('tg-n-seb').textContent = nS;
+  const bd = document.getElementById('tg-tab-badge');
+  if(bd){ bd.textContent = all.length; bd.style.display = all.length>0 ? 'inline-block' : 'none'; }
+  const q = (document.getElementById('tg-search')?.value||'').toLowerCase().trim();
+  const rows = all.filter(g=>{
+    if(tgFilter!=='all' && g.status!==tgFilter) return false;
+    if(q && !(g.nama.toLowerCase().includes(q) || g.orders.some(i=>(i.o.noOrder||'').toLowerCase().includes(q)))) return false;
+    return true;
+  }).sort((a,b)=>b.sisa-a.sisa || a.nama.localeCompare(b.nama,'id'));
+  if(!rows.length){
+    listEl.innerHTML = '<div style="text-align:center;padding:40px 10px;color:#9aa0b4;font-size:13px">'+(window._connected&&window._connected.orderanAff?'Tidak ada tagihan 🎉':'Memuat data...')+'</div>';
+    return;
+  }
+  const st = {belum:['BELUM BAYAR','#f87171'], sebagian:['BAYAR SEBAGIAN','#e9c349']};
+  listEl.innerHTML = rows.map(g=>{
+    const [stTxt,stCol] = st[g.status];
+    const open = !!tgOpen[g.key];
+    const kAttr = escD(g.key).replace(/'/g,'&#39;');
+    const pct = g.total>0 ? Math.min(100,Math.round(g.paid/g.total*100)) : 0;
+    const detail = open ? '<div style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">'+g.orders.map(inf=>{
+      const o = inf.o;
+      const [t2,c2] = st[inf.status];
+      const all = getActiveItemsDash(o);
+      const items = all.filter(it=>{ const tg=getItemTagihanDash(it); return tg - Math.min(getItemJumlahDibayarDash(it),tg) > 0; });
+      const nL = all.length - items.length;
+      const rows2 = items.map(it=>{
+        const tg = getItemTagihanDash(it), pd = Math.min(getItemJumlahDibayarDash(it),tg), sisaI = tg-pd;
+        return '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:4px 0"><span style="color:#dee2ec;flex:1">'+escD(it.namaItem)+' <span style="color:#9aa0b4">×'+getItemSisaAktifDash(it)+'</span>'+(pd>0?'<div style="font-size:10px;color:#60a5fa">DP/terbayar '+rpD(pd)+'</div>':'')+'</span><span style="color:'+(pd>0?'#e9c349':'#f87171')+';font-weight:700;white-space:nowrap">'+rpD(sisaI)+'</span></div>';
+      }).join('');
+      const ongk = ((o.ongkir||0)>0 && !o.ongkirDibayar) ? '<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0"><span style="color:#dee2ec">Ongkir</span><span style="color:#f87171;font-weight:700">'+rpD(o.ongkir)+'</span></div>' : '';
+      return '<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:10px 12px;margin-bottom:8px">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px"><div style="font-size:12px;font-weight:700;color:#e9c349">'+escD(o.noOrder)+'<div style="font-size:10px;font-weight:400;color:#9aa0b4">'+escD(o.platform||'')+' · '+escD(o.tgl?new Date(o.tgl).toLocaleDateString('id-ID'):'')+' · '+(o.status==='dikirim'?'Dikirim':'Selesai')+'</div></div><span style="font-size:9px;font-weight:800;color:'+c2+';background:'+c2+'22;padding:2px 8px;border-radius:10px;white-space:nowrap">'+t2+'</span></div>'+
+        rows2+ongk+
+        (nL>0?'<div style="font-size:10px;color:#9aa0b4;margin-top:2px">+ '+nL+' item lain sudah lunas</div>':'')+
+        '<div style="display:flex;justify-content:space-between;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(255,255,255,0.08);font-size:11px"><span style="color:#9aa0b4">Total '+rpD(inf.total)+' · Terbayar '+rpD(inf.paid)+'</span><span style="color:#f87171;font-weight:800">Sisa '+rpD(inf.sisa)+'</span></div></div>';
+    }).join('')+'</div>' : '';
+    return '<div class="glass" style="padding:14px 16px;margin-bottom:10px">'+
+      '<div onclick="toggleTg(\''+kAttr+'\')" style="cursor:pointer">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">'+escD(g.nama)+'</div><span style="display:inline-block;margin-top:4px;font-size:9px;font-weight:800;color:'+stCol+';background:'+stCol+'22;padding:2px 8px;border-radius:10px">'+stTxt+'</span></div>'+
+      '<div style="text-align:right"><div style="font-size:9px;color:#9aa0b4;letter-spacing:1px">SISA</div><div style="font-family:Montserrat;font-size:17px;font-weight:800;color:#f87171">'+rpD(g.sisa)+'</div></div></div>'+
+      '<div style="font-size:11px;color:#9aa0b4;margin-top:6px">'+g.orders.length+' order belum lunas · total '+rpD(g.total)+' · terbayar '+rpD(g.paid)+' <span style="float:right">'+(open?'▲':'▼ rincian')+'</span></div>'+
+      '<div style="height:4px;border-radius:4px;background:rgba(255,255,255,0.06);margin-top:8px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+stCol+'"></div></div></div>'+
+      detail+'</div>';
+  }).join('');
 }
 
 function renderBengkelView() {
